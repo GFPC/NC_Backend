@@ -50,7 +50,8 @@ async def get_seats():
 @app.post("/api/seats/reserve")
 async def reserve_seat(
     seat_id: str = Form(...),
-    user_id: str = Form(...)
+    user_id: str = Form(...),
+    occupied_by = Form(...)
 ):
     seat = next((s for s in seats_db if s["id"] == seat_id), None)
     
@@ -65,7 +66,7 @@ async def reserve_seat(
     
     seat["status"] = "occupied"
     seat["held_by"] = user_id
-    seat["occupied_by"] = None
+    seat["occupied_by"] = occupied_by
     
     return {"success": True, "message": "Seat reserved"}
 
