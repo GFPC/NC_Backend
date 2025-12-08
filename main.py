@@ -92,7 +92,6 @@ async def release_seat(
 async def book_seats(
     user_id: str = Form(...),
     seat_ids: str = Form(...),
-    user_id: str = Form(...),
     name: str = Form(...)
 ):
     seat_id_list = seat_ids.split(",")
