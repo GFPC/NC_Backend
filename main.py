@@ -51,7 +51,7 @@ async def get_seats():
 async def reserve_seat(
     seat_id: str = Form(...),
     user_id: str = Form(...),
-    occupied_by = Form(...)
+    name: str = Form(...)
 ):
     seat = next((s for s in seats_db if s["id"] == seat_id), None)
     
@@ -66,7 +66,7 @@ async def reserve_seat(
     
     seat["status"] = "occupied"
     seat["held_by"] = user_id
-    seat["occupied_by"] = occupied_by
+    seat["name"] = name
     
     return {"success": True, "message": "Seat reserved"}
 
@@ -84,6 +84,7 @@ async def release_seat(
         seat["status"] = "available"
         seat["held_by"] = None
         seat["occupied_by"] = None
+        seat["name"] = None
     
     return {"success": True, "message": "Seat released"}
 
@@ -91,6 +92,7 @@ async def release_seat(
 async def book_seats(
     user_id: str = Form(...),
     seat_ids: str = Form(...),
+    user_id: str = Form(...),
     name: str = Form(...)
 ):
     seat_id_list = seat_ids.split(",")
@@ -105,7 +107,8 @@ async def book_seats(
     for seat in user_seats:
         seat["status"] = "occupied"
         seat["held_by"] = None
-        seat["occupied_by"] = name
+        seat["occupied_by"] = user_id,
+        seat["name"] = name
     
     return {"success": True, "message": "Booking successful!"}
 
